@@ -1,0 +1,269 @@
+openapi: 3.0.3
+info:
+  title: Swagger Productstore - OpenAPI 3.0
+  version: v1
+servers:
+- url: /v1/
+paths:
+  /products:
+    get:
+      tags:
+      - product
+      summary: List the products
+      description: "Display the products in the store, by default it lists 10 products"
+      operationId: list_products
+      parameters:
+      - name: noOfProducts
+        in: query
+        description: Specify the number of products to be listed
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+      security:
+      - productstore_auth:
+        - write:products
+        - read:products
+      x-openapi-router-controller: product_server.controllers.product_controller
+  /product/{productId}:
+    get:
+      tags:
+      - product
+      summary: Find product by ID
+      description: Returns a single product
+      operationId: get_product_by_id
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Product not found
+      security:
+      - api_key: []
+      - productstore_auth:
+        - write:products
+        - read:products
+      x-openapi-router-controller: product_server.controllers.product_controller
+    post:
+      tags:
+      - product
+      summary: Updates a product in the store
+      description: ""
+      operationId: update_product
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: sku
+        in: query
+        description: Stock Keeping Unit of product that needs to be updated
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: Title of product that needs to be updated
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: brand
+        in: query
+        description: Brand of product that needs to be updated
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Slug of product that needs to be updated
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: quantity
+        in: query
+        description: Quantity of product that needs to be updated
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "405":
+          description: Invalid input
+      security:
+      - productstore_auth:
+        - write:products
+        - read:products
+      x-openapi-router-controller: product_server.controllers.product_controller
+    delete:
+      tags:
+      - product
+      summary: Deletes a product
+      description: delete a product
+      operationId: delete_product
+      parameters:
+      - name: api_key
+        in: header
+        description: ""
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: productId
+        in: path
+        description: Product id to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "400":
+          description: Invalid product value
+      security:
+      - productstore_auth:
+        - write:products
+        - read:products
+      x-openapi-router-controller: product_server.controllers.product_controller
+  /product:
+    post:
+      tags:
+      - product
+      summary: Add a new product to the store
+      description: Add a new product to the store
+      operationId: add_product
+      requestBody:
+        description: Create a new product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "405":
+          description: Invalid input
+      security:
+      - productstore_auth:
+        - write:products
+        - read:products
+      x-openapi-router-controller: product_server.controllers.product_controller
+components:
+  schemas:
+    Product:
+      required:
+      - name
+      - photoUrls
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        sku:
+          type: string
+          example: "2842534"
+        title:
+          type: string
+          example: Tommy
+        brand:
+          type: string
+          example: high-split-solid-shirt
+        slug:
+          type: string
+          example: High split shirt
+        quantity:
+          type: integer
+          format: int64
+          example: 1
+      example:
+        quantity: 1
+        id: 1
+        sku: "2842534"
+        title: Tommy
+        brand: high-split-solid-shirt
+        slug: High split shirt
+      xml:
+        name: product
+  securitySchemes:
+    productstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://productstore3.swagger.io/oauth/authorize
+          scopes:
+            write:products: modify products in your account
+            read:products: read your products
+      x-tokenInfoFunc: product_server.controllers.authorization_controller.check_productstore_auth
+      x-scopeValidateFunc: product_server.controllers.authorization_controller.validate_scope_productstore_auth
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+      x-apikeyInfoFunc: product_server.controllers.authorization_controller.check_api_key
+
