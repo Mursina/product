@@ -243,4 +243,4 @@ components:
     basicAuth:
       type: http
       scheme: basic
-      x-basicInfoFunc: product_server.controllers.authorization_controller.check_api_key
+      x-basicInfoFunc: product_server.controllers.authorization_controller.check_basicAuth
