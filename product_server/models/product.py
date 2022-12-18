@@ -30,29 +30,13 @@ class Product(Model):
         :param quantity: The quantity of this Product.  # noqa: E501
         :type quantity: int
         """
-        self.swagger_types = {
-            'id': int,
-            'sku': str,
-            'title': str,
-            'brand': str,
-            'slug': str,
-            'quantity': int
-        }
-
-        self.attribute_map = {
-            'id': 'id',
-            'sku': 'sku',
-            'title': 'title',
-            'brand': 'brand',
-            'slug': 'slug',
-            'quantity': 'quantity'
-        }
-        self._id = id
-        self._sku = sku
-        self._title = title
-        self._brand = brand
-        self._slug = slug
-        self._quantity = quantity
+        
+        self.id = id
+        self.sku = sku
+        self.title = title
+        self.brand = brand
+        self.slug = slug
+        self.quantity = quantity
 
     @classmethod
     def from_dict(cls, dikt) -> 'Product':
@@ -64,129 +48,3 @@ class Product(Model):
         :rtype: Product
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self) -> int:
-        """Gets the id of this Product.
-
-
-        :return: The id of this Product.
-        :rtype: int
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Product.
-
-
-        :param id: The id of this Product.
-        :type id: int
-        """
-
-        self._id = id
-
-    @property
-    def sku(self) -> str:
-        """Gets the sku of this Product.
-
-
-        :return: The sku of this Product.
-        :rtype: str
-        """
-        return self._sku
-
-    @sku.setter
-    def sku(self, sku: str):
-        """Sets the sku of this Product.
-
-
-        :param sku: The sku of this Product.
-        :type sku: str
-        """
-
-        self._sku = sku
-
-    @property
-    def title(self) -> str:
-        """Gets the title of this Product.
-
-
-        :return: The title of this Product.
-        :rtype: str
-        """
-        return self._title
-
-    @title.setter
-    def title(self, title: str):
-        """Sets the title of this Product.
-
-
-        :param title: The title of this Product.
-        :type title: str
-        """
-
-        self._title = title
-
-    @property
-    def brand(self) -> str:
-        """Gets the brand of this Product.
-
-
-        :return: The brand of this Product.
-        :rtype: str
-        """
-        return self._brand
-
-    @brand.setter
-    def brand(self, brand: str):
-        """Sets the brand of this Product.
-
-
-        :param brand: The brand of this Product.
-        :type brand: str
-        """
-
-        self._brand = brand
-
-    @property
-    def slug(self) -> str:
-        """Gets the slug of this Product.
-
-
-        :return: The slug of this Product.
-        :rtype: str
-        """
-        return self._slug
-
-    @slug.setter
-    def slug(self, slug: str):
-        """Sets the slug of this Product.
-
-
-        :param slug: The slug of this Product.
-        :type slug: str
-        """
-
-        self._slug = slug
-
-    @property
-    def quantity(self) -> int:
-        """Gets the quantity of this Product.
-
-
-        :return: The quantity of this Product.
-        :rtype: int
-        """
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, quantity: int):
-        """Sets the quantity of this Product.
-
-
-        :param quantity: The quantity of this Product.
-        :type quantity: int
-        """
-
-        self._quantity = quantity
