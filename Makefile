@@ -8,4 +8,5 @@ venv:
 	pip install -r requirements.txt; \
 	)
 
-
+run_local:
+	python -m product_server
