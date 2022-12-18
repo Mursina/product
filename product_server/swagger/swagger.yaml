@@ -38,9 +38,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Product'
       security:
-      - productstore_auth:
-        - write:products
-        - read:products
+      - basicAuth: []
       x-openapi-router-controller: product_server.controllers.product_controller
   /product/{productId}:
     get:
@@ -74,10 +72,7 @@ paths:
         "404":
           description: Product not found
       security:
-      - api_key: []
-      - productstore_auth:
-        - write:products
-        - read:products
+      - basicAuth: []
       x-openapi-router-controller: product_server.controllers.product_controller
     post:
       tags:
@@ -140,9 +135,7 @@ paths:
         "405":
           description: Invalid input
       security:
-      - productstore_auth:
-        - write:products
-        - read:products
+      - basicAuth: []
       x-openapi-router-controller: product_server.controllers.product_controller
     delete:
       tags:
@@ -172,9 +165,7 @@ paths:
         "400":
           description: Invalid product value
       security:
-      - productstore_auth:
-        - write:products
-        - read:products
+      - basicAuth: []
       x-openapi-router-controller: product_server.controllers.product_controller
   /product:
     post:
@@ -209,9 +200,7 @@ paths:
         "405":
           description: Invalid input
       security:
-      - productstore_auth:
-        - write:products
-        - read:products
+      - basicAuth: []
       x-openapi-router-controller: product_server.controllers.product_controller
 components:
   schemas:
@@ -251,19 +240,7 @@ components:
       xml:
         name: product
   securitySchemes:
-    productstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://productstore3.swagger.io/oauth/authorize
-          scopes:
-            write:products: modify products in your account
-            read:products: read your products
-      x-tokenInfoFunc: product_server.controllers.authorization_controller.check_productstore_auth
-      x-scopeValidateFunc: product_server.controllers.authorization_controller.validate_scope_productstore_auth
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
-      x-apikeyInfoFunc: product_server.controllers.authorization_controller.check_api_key
-
+    basicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: product_server.controllers.authorization_controller.check_api_key
