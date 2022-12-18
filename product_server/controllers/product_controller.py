@@ -4,6 +4,9 @@ import six
 from product_server.models.product import Product  # noqa: E501
 from product_server import util
 
+from product_server.models.csv_op import CSV
+
+csv_obj = CSV()
 
 def add_product(body):  # noqa: E501
     """Add a new product to the store
@@ -81,7 +84,7 @@ def list_products(no_of_products=None):  # noqa: E501
 
     :rtype: List[Product]
     """
-    return 'do some magic!'
+    return csv_obj.list_products()
 
 
 def update_product(product_id, sku=None, title=None, brand=None, slug=None, quantity=None):  # noqa: E501
