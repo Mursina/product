@@ -22,14 +22,21 @@ class CSV:
     def get_product(self, prod_id):
         try:
             return rows[prod_id]
-        except KeyError:
-            return "Product is not there"
+        except:
+            return {
+                "description": "Product is not found",
+                "status": 404,
+                "title": "Internal Server Error",
+                "type": "about:blank"
+            }
+        
 
     # Function represents the API of adding the product
     def add_product(self, sku, title, brand, slug, quantity):
 
         with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv','a') as f_append:
-            rows[len(rows)+ 1] = self.to_dict(Product(len(rows)+ 1, sku, title, brand, slug, quantity))
+            p = Product(len(rows)+ 1, sku, title, brand, slug, quantity)
+            rows[len(rows)+ 1] = self.to_dict(p)
             current_row = list(rows[len(rows)].values())
 
             # Remove the id before append the record in the CSV file
@@ -38,6 +45,12 @@ class CSV:
             # Append the list in the last line of CSV file
             csv_writer = csv.writer(f_append)
             csv_writer.writerow(current_row)
+            
+            return {
+                "description": "Successful operation",
+                "status": 200,
+                "response": self.to_dict(p)
+            } 
 
     # Function represents the API of deleting the product by product_id
     def delete_product(self, product_id):
