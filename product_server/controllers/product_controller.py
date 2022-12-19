@@ -23,29 +23,6 @@ def add_product(body):  # noqa: E501
     return csv_obj.add_product(body.id, body.sku, body.title, body.brand, body.slug, body.quantity)
 
 
-def add_product(id, sku, title, brand, slug, quantity):  # noqa: E501
-    """Add a new product to the store
-
-    Add a new product to the store # noqa: E501
-
-    :param id: 
-    :type id: int
-    :param sku: 
-    :type sku: str
-    :param title: 
-    :type title: str
-    :param brand: 
-    :type brand: str
-    :param slug: 
-    :type slug: str
-    :param quantity: 
-    :type quantity: int
-
-    :rtype: Product
-    """
-    return 'do some magic!'
-
-
 def delete_product(product_id, api_key=None):  # noqa: E501
     """Deletes a product
 
