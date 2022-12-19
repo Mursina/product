@@ -59,18 +59,33 @@ class CSV:
     # Function represents the API of deleting the product by product_id
     def delete_product(self, product_id):
 
-        rows = self.list_products()
-        with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv') as self.file, open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', 'w') as output:
-            self.csv_reader = csv.reader(self.file)
+        try:
+            rows = self.list_products()['response']
+            with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv') as self.file, open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', 'w') as output:
+                self.csv_reader = csv.reader(self.file)
 
-            _sku = rows[product_id]['sku'] # Find relevant sku
-            rows.pop(product_id, None)
-            for row in self.csv_reader:
-                if row[0] != _sku:
-                    csv_writer = csv.writer(output)
-                    csv_writer.writerow(row)
-        os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
-        os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+                _sku = rows[product_id]['sku'] # Find relevant sku
+                rows.pop(product_id, None)
+                for row in self.csv_reader:
+                    if row[0] != _sku:
+                        csv_writer = csv.writer(output)
+                        csv_writer.writerow(row)
+            os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+            os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+
+            return {
+                    "description": "Successful operation",
+                    "status": 200,
+                    "response": "Product has been deleted"
+            }  
+            
+        except KeyError:
+            return {
+                "description": "Product is not found",
+                "status": 404,
+                "title": "Internal Server Error",
+                "type": "about:blank"
+            }
 
     # Function represents the API of converting the Product model into dictionary
     def to_dict(self,prod):

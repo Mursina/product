@@ -35,8 +35,7 @@ def delete_product(product_id, api_key=None):  # noqa: E501
 
     :rtype: None
     """
-    csv_obj.delete_product(product_id)
-    return 'deleted!'
+    return csv_obj.delete_product(product_id)
 
 
 def get_product_by_id(product_id):  # noqa: E501
