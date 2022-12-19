@@ -80,6 +80,8 @@ class CSV:
             }  
             
         except KeyError:
+            os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+            os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
             return {
                 "description": "Product is not found",
                 "status": 404,
