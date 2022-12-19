@@ -20,7 +20,7 @@ def add_product(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Product.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return csv_obj.add_product(body.id, body.sku, body.title, body.brand, body.slug, body.quantity)
 
 
 def add_product(id, sku, title, brand, slug, quantity):  # noqa: E501
@@ -71,7 +71,7 @@ def get_product_by_id(product_id):  # noqa: E501
 
     :rtype: Product
     """
-    return 'do some magic!'
+    return csv_obj.get_product(product_id)
 
 
 def list_products(no_of_products=None):  # noqa: E501
