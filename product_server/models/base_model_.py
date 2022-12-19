@@ -11,7 +11,7 @@ T = typing.TypeVar('T')
 class Model(object):
     # swaggerTypes: The key is attribute name and the
     # value is attribute type.
-    swagger_types = {}
+    product_types = {}
 
     # attributeMap: The key is attribute name and the
     # value is json key in definition.
@@ -29,7 +29,7 @@ class Model(object):
         """
         result = {}
 
-        for attr, _ in six.iteritems(self.swagger_types):
+        for attr, _ in six.iteritems(self.product_types):
             value = getattr(self, attr)
             if isinstance(value, list):
                 result[attr] = list(map(

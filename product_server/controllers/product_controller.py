@@ -20,7 +20,7 @@ def add_product(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Product.from_dict(connexion.request.get_json())  # noqa: E501
-    return csv_obj.add_product(body.id, body.sku, body.title, body.brand, body.slug, body.quantity)
+    return csv_obj.add_product(body.sku, body.title, body.brand, body.slug, body.quantity)
 
 
 def delete_product(product_id, api_key=None):  # noqa: E501

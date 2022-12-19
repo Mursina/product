@@ -38,6 +38,24 @@ class Product(Model):
         self.slug = slug
         self.quantity = quantity
 
+        self.product_types = {
+            'id': int,
+            'sku': str,
+            'title': str,
+            'brand': str,
+            'slug': str,
+            'quantity': int
+        }
+
+        self.attribute_map = {
+            'id': 'id',
+            'sku': 'sku',
+            'title': 'title',
+            'brand': 'brand',
+            'slug': 'slug',
+            'quantity': 'quantity'
+        }
+
     @classmethod
     def from_dict(cls, dikt) -> 'Product':
         """Returns the dict as a model
