@@ -11,8 +11,7 @@ class CSV:
     
     def __init__(self): 
         for row in csv_reader:
-            prod = Product(csv_reader.line_num, row[0], row[1], row[2], row[3], row[4])
-            rows[csv_reader.line_num] = vars(prod)
+            rows[csv_reader.line_num] = self.to_dict(Product(csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
         
     # Function represents the API of listing the products
     def list_products(self):
@@ -24,5 +23,11 @@ class CSV:
     def add_product(self, sku, title, brand, slug, quantity):
         rows[csv_reader.line_num + 1] = Product(csv_reader.line_num + 1, sku, title, brand, slug, quantity)
         csv_writer = csv.writer(file)
-        csv_writer.writerow(rows[csv_reader.line_num + 1])
-        file.close()  
+        csv_writer.writerow(vars(self.to_dict(rows[csv_reader.line_num + 1])))
+        file.close() 
+
+    def to_dict(self,prod):
+        prod_dict = vars(prod)
+        del prod_dict['product_types']
+        del prod_dict['attribute_map']
+        return prod_dict
