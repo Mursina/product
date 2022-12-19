@@ -36,6 +36,6 @@ class CSV:
 
     def to_dict(self,prod):
         prod_dict = vars(prod)
-        del prod_dict['product_types']
-        del prod_dict['attribute_map']
+        prod_dict.pop('product_types', None)
+        prod_dict.pop('attribute_map', None)
         return prod_dict
