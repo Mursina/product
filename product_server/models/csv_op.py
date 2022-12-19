@@ -16,7 +16,11 @@ class CSV:
             self.csv_reader = csv.reader(self.file)
             for row in self.csv_reader:
                 rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
-            return rows
+            return {
+                "description": "Successful operation",
+                "status": 200,
+                "response": rows
+            } 
 
     # Function represents the API of getting the product by product_id
     def get_product(self, prod_id):
