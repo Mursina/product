@@ -18,12 +18,14 @@ class CSV:
                 rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
             return rows
 
+    # Function represents the API of getting the product by product_id
     def get_product(self, prod_id):
         try:
             return rows[prod_id]
         except KeyError:
             return "Product is not there"
 
+    # Function represents the API of adding the product
     def add_product(self, sku, title, brand, slug, quantity):
 
         with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv','a') as f_append:
@@ -37,6 +39,7 @@ class CSV:
             csv_writer = csv.writer(f_append)
             csv_writer.writerow(current_row)
 
+    # Function represents the API of deleting the product by product_id
     def delete_product(self, product_id):
 
         rows = self.list_products()
@@ -52,7 +55,7 @@ class CSV:
         os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
         os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
 
-
+    # Function represents the API of converting the Product model into dictionary
     def to_dict(self,prod):
         prod_dict = vars(prod)
         prod_dict.pop('product_types', None)
