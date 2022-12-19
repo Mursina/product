@@ -1,6 +1,6 @@
 import csv
-import json
 from product_server.models.product import Product
+import os
 
 rows = dict() # CSV data is appended in the dictionsary
 
@@ -19,7 +19,10 @@ class CSV:
             return rows
 
     def get_product(self, prod_id):
-        return rows[prod_id]
+        try:
+            return rows[prod_id]
+        except KeyError:
+            return "Product is not there"
 
     def add_product(self, sku, title, brand, slug, quantity):
 
@@ -33,6 +36,22 @@ class CSV:
             # Append the list in the last line of CSV file
             csv_writer = csv.writer(f_append)
             csv_writer.writerow(current_row)
+
+    def delete_product(self, product_id):
+
+        rows = self.list_products()
+        with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv') as self.file, open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', 'w') as output:
+            self.csv_reader = csv.reader(self.file)
+
+            _sku = rows[product_id]['sku'] # Find relevant sku
+            rows.pop(product_id, None)
+            for row in self.csv_reader:
+                if row[0] != _sku:
+                    csv_writer = csv.writer(output)
+                    csv_writer.writerow(row)
+        os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+        os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+
 
     def to_dict(self,prod):
         prod_dict = vars(prod)
