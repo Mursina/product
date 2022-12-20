@@ -14,36 +14,36 @@ class Product(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, sku: str=None, title: str=None, brand: str=None, slug: str=None, quantity: int=None):  # noqa: E501
+    def __init__(self, id: int=None, sku: str=None, brand: str=None, slug: str=None, title: str=None, quantity: int=None):  # noqa: E501
         """Product - a model defined in Swagger
 
         :param id: The id of this Product.  # noqa: E501
         :type id: int
         :param sku: The sku of this Product.  # noqa: E501
         :type sku: str
-        :param title: The title of this Product.  # noqa: E501
-        :type title: str
         :param brand: The brand of this Product.  # noqa: E501
         :type brand: str
         :param slug: The slug of this Product.  # noqa: E501
         :type slug: str
+        :param title: The title of this Product.  # noqa: E501
+        :type title: str
         :param quantity: The quantity of this Product.  # noqa: E501
         :type quantity: int
         """
         
         self.id = id
         self.sku = sku
-        self.title = title
         self.brand = brand
         self.slug = slug
+        self.title = title
         self.quantity = quantity
 
         self.product_types = {
             'id': int,
             'sku': str,
-            'title': str,
             'brand': str,
             'slug': str,
+            'title': str,
             'quantity': int
         }
 

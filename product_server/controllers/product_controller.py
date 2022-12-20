@@ -20,7 +20,7 @@ def add_product(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Product.from_dict(connexion.request.get_json())  # noqa: E501
-    return csv_obj.add_product(body.sku, body.title, body.brand, body.slug, body.quantity)
+    return csv_obj.add_product(body.sku, body.brand, body.slug, body.title, body.quantity)
 
 
 def delete_product(product_id, api_key=None):  # noqa: E501
@@ -51,7 +51,7 @@ def get_product_by_id(product_id):  # noqa: E501
     return csv_obj.get_product(product_id)
 
 
-def list_products(no_of_products=None):  # noqa: E501
+def list_products(no_of_products=None, brand_name=None, skip=None, limit=None):  # noqa: E501
     """List the products
 
     Display the products in the store, by default it lists 10 products # noqa: E501
@@ -61,27 +61,4 @@ def list_products(no_of_products=None):  # noqa: E501
 
     :rtype: List[Product]
     """
-    return csv_obj.list_products(no_of_products)
-
-
-def update_product(product_id, sku=None, title=None, brand=None, slug=None, quantity=None):  # noqa: E501
-    """Updates a product in the store
-
-     # noqa: E501
-
-    :param product_id: ID of product that needs to be updated
-    :type product_id: int
-    :param sku: Stock Keeping Unit of product that needs to be updated
-    :type sku: str
-    :param title: Title of product that needs to be updated
-    :type title: str
-    :param brand: Brand of product that needs to be updated
-    :type brand: str
-    :param slug: Slug of product that needs to be updated
-    :type slug: str
-    :param quantity: Quantity of product that needs to be updated
-    :type quantity: int
-
-    :rtype: None
-    """
-    return 'do some magic!'
+    return csv_obj.list_products(no_of_products, brand_name, skip, limit)

@@ -18,7 +18,7 @@ class CSV:
         pass
         
     # Function represents the API of listing the products
-    def list_products(self, no_of_products):
+    def list_products(self, no_of_products, brand_name, skip, limit):
         with open(csv_dir + '/products.csv') as self.file:
             self.csv_reader = csv.reader(self.file)
             for row in self.csv_reader:
@@ -58,10 +58,10 @@ class CSV:
         
 
     # Function represents the API of adding the product
-    def add_product(self, sku, title, brand, slug, quantity):
+    def add_product(self, sku, brand, slug, title, quantity):
 
         with open(csv_dir + '/products.csv','a') as f_append:
-            p = Product(len(rows)+ 1, sku, title, brand, slug, quantity)
+            p = Product(len(rows)+ 1, sku, brand, slug, title, quantity)
             rows[len(rows)+ 1] = self.to_dict(p)
             current_row = list(rows[len(rows)].values())
 

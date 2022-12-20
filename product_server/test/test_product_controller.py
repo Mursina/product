@@ -20,9 +20,9 @@ class TestProductController(BaseTestCase):
         body = Product()
         data = dict(id=789,
                     sku='sku_example',
-                    title='title_example',
                     brand='brand_example',
                     slug='slug_example',
+                    title='title_example',
                     quantity=789)
         response = self.client.open(
             '/product',
