@@ -1,6 +1,13 @@
 import csv
 from product_server.models.product import Product
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Environment variables
+root_dir = os.environ['ROOT_DIR']
+csv_dir = os.environ['CSV_DIR']
 
 rows = dict() # CSV data is appended in the dictionsary
 
@@ -12,7 +19,7 @@ class CSV:
         
     # Function represents the API of listing the products
     def list_products(self):
-        with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv') as self.file:
+        with open(csv_dir + '/products.csv') as self.file:
             self.csv_reader = csv.reader(self.file)
             for row in self.csv_reader:
                 rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
@@ -38,7 +45,7 @@ class CSV:
     # Function represents the API of adding the product
     def add_product(self, sku, title, brand, slug, quantity):
 
-        with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv','a') as f_append:
+        with open(csv_dir + '/products.csv','a') as f_append:
             p = Product(len(rows)+ 1, sku, title, brand, slug, quantity)
             rows[len(rows)+ 1] = self.to_dict(p)
             current_row = list(rows[len(rows)].values())
@@ -61,7 +68,7 @@ class CSV:
 
         try:
             rows = self.list_products()['response']
-            with open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv') as self.file, open('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', 'w') as output:
+            with open(csv_dir + '/products.csv') as self.file, open(csv_dir + '/output.csv', 'w') as output:
                 self.csv_reader = csv.reader(self.file)
 
                 _sku = rows[product_id]['sku'] # Find relevant sku
@@ -70,8 +77,8 @@ class CSV:
                     if row[0] != _sku:
                         csv_writer = csv.writer(output)
                         csv_writer.writerow(row)
-            os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
-            os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+            os.remove(csv_dir + '/products.csv')
+            os.rename(csv_dir + '/output.csv', csv_dir + '/products.csv')
 
             return {
                     "description": "Successful operation",
@@ -80,8 +87,8 @@ class CSV:
             }  
             
         except KeyError:
-            os.remove('/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
-            os.rename(r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/output.csv', r'/Users/MUr/Downloads/MyProjects/product/product_server/source_files/products.csv')
+            os.remove(csv_dir + '/products.csv')
+            os.rename(csv_dir + '/output.csv', csv_dir + '/products.csv')
             return {
                 "description": "Product is not found",
                 "status": 404,
