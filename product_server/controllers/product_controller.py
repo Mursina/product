@@ -61,7 +61,7 @@ def list_products(no_of_products=None):  # noqa: E501
 
     :rtype: List[Product]
     """
-    return csv_obj.list_products()
+    return csv_obj.list_products(no_of_products)
 
 
 def update_product(product_id, sku=None, title=None, brand=None, slug=None, quantity=None):  # noqa: E501

@@ -18,16 +18,31 @@ class CSV:
         pass
         
     # Function represents the API of listing the products
-    def list_products(self):
+    def list_products(self, no_of_products):
         with open(csv_dir + '/products.csv') as self.file:
             self.csv_reader = csv.reader(self.file)
             for row in self.csv_reader:
                 rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
+        try:
+            if no_of_products:   
+                result = {k:rows[k] for k in range(1, no_of_products + 1)}
+            else:
+                result = {k:rows[k] for k in range(1, 11)}
+
             return {
-                "description": "Successful operation",
-                "status": 200,
-                "response": rows
+            "description": "Successful operation",
+            "status": 200,
+            "response": result
+        } 
+
+        except KeyError:
+            return {
+            "description": "Number of product is exceeded",
+                "status": 500,
+                "title": "Internal Server Error",
+                "type": "about:blank"
             } 
+
 
     # Function represents the API of getting the product by product_id
     def get_product(self, prod_id):
