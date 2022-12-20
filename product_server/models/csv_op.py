@@ -23,11 +23,22 @@ class CSV:
             self.csv_reader = csv.reader(self.file)
             for row in self.csv_reader:
                 rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
+        
         try:
-            if no_of_products:   
-                result = {k:rows[k] for k in range(1, no_of_products + 1)}
+            if brand_name:
+                filtered = {k:rows[k] for k,v in rows.items() if v['brand']==brand_name}
             else:
-                result = {k:rows[k] for k in range(1, 11)}
+                filtered = rows
+            
+            if not no_of_products:
+                no_of_products = 10
+
+            if limit:
+                result = dict(list(filtered.items())[skip:limit])
+            elif no_of_products > len(rows):
+                raise TypeError
+            else:
+                result = dict(list(filtered.items())[skip:no_of_products])
 
             return {
             "description": "Successful operation",
@@ -47,6 +58,10 @@ class CSV:
     # Function represents the API of getting the product by product_id
     def get_product(self, prod_id):
         try:
+            with open(csv_dir + '/products.csv') as self.file:
+                self.csv_reader = csv.reader(self.file)
+                for row in self.csv_reader:
+                    rows[self.csv_reader.line_num] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
             return rows[prod_id]
         except:
             return {
