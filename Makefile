@@ -1,3 +1,4 @@
+# Please create .env file. Example file is provided as example.env
 include .env
 
 # Create virtual environment
