@@ -1,5 +1,6 @@
+include .env
+
 # Create virtual environment
-# Activate the venv by executing . penv/bin/activate
 venv:
 	(\
 	rm -rf penv; \
@@ -8,5 +9,6 @@ venv:
 	pip install -r requirements.txt; \
 	)
 
+# Activate the venv by executing . penv/bin/activate before
 run_local:
 	python -m product_server
