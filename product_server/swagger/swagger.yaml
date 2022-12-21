@@ -3,7 +3,7 @@ info:
   title: Swagger Productstore - OpenAPI 3.0
   version: v1
 servers:
-- url: /v1/
+- url: http://localhost:8080/v1
 paths:
   /products:
     get:
@@ -168,12 +168,11 @@ components:
   schemas:
     Product:
       required:
-      - id
+      - sku
       properties:
         id:
           type: integer
           format: int64
-          example: 1
         sku:
           type: string
           example: "2842534"
@@ -192,7 +191,6 @@ components:
           example: 1
       example:
         quantity: 1
-        id: 1
         sku: "2842534"
         brand: "Tommy"
         slug: "high-split-solid-shirt"
