@@ -13,3 +13,11 @@ venv:
 # Activate the venv by executing . penv/bin/activate before
 run_local:
 	python -m product_server
+
+# build docker image
+build_docker:
+	docker build -t product_server .
+
+# Run docker container
+run_docker:
+	docker run -p 8080:8080 product_server
