@@ -120,8 +120,7 @@ class CSV:
             }  
             
         except KeyError:
-            os.remove(csv_dir + '/products.csv')
-            os.rename(csv_dir + '/output.csv', csv_dir + '/products.csv')
+            os.remove(csv_dir + '/output.csv')
             return {
                 "description": "Product is not found",
                 "status": 404,
