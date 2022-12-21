@@ -70,9 +70,18 @@ class CSV:
 
         rows = self.read_csv()
         with open(csv_dir + '/products.csv','a') as f_append:
-            p = Product(rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, sku))], sku, brand, slug, title, quantity)
-            rows[rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, p.id))]] = self.to_dict(p)
-            current_row = list(rows[len(rows)].values())
+            p = Product(int(uuid.uuid3(uuid.NAMESPACE_DNS, sku)), sku, brand, slug, title, quantity)
+
+            if p.id in rows.keys():
+                return {
+                    "description": "Product is already exist",
+                    "status": 405,
+                    "title": "Invalid Input",
+                    "type": "about:blank"
+                }
+
+            rows[p.id] = self.to_dict(p)
+            current_row = list(rows[p.id].values())
 
             # Remove the id before append the record in the CSV file
             current_row.pop(0)
