@@ -19,5 +19,5 @@ build_docker:
 	docker build -t product_server .
 
 # Run docker container
-run_docker:
+run_docker: build_docker
 	docker run -p 8080:8080 product_server

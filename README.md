@@ -57,6 +57,11 @@ docker build -t product_server .
 docker run -p 8080:8080 product_server
 ```
 
+or else simply run the make recipes as below:
+```
+make run_docker
+```
+
 ## Functionality
 
 ### 1. API functionality
