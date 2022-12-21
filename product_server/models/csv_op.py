@@ -18,11 +18,7 @@ class CSV:
     # Function represents the API of listing the products
     def list_products(self, no_of_products, brand_name, skip, limit):
 
-        rows = dict() # CSV data is appended in the dictionary
-        with open(csv_dir + '/products.csv') as input_file:
-            self.csv_reader = csv.reader(input_file)
-            for row in self.csv_reader:
-                rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, row[0]))] = self.to_dict(Product(int(uuid.uuid3(uuid.NAMESPACE_DNS, row[0])), row[0], row[1], row[2], row[3], row[4]))
+        rows = self.read_csv()
         
         try:
             if brand_name:
@@ -58,11 +54,7 @@ class CSV:
     # Function represents the API of getting the product by product_id
     def get_product(self, prod_id):
         try:
-            rows = dict() # CSV data is appended in the dictionary
-            with open(csv_dir + '/products.csv') as input_file:
-                self.csv_reader = csv.reader(input_file)
-                for row in self.csv_reader:
-                    rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, row[0]))] = self.to_dict(Product(self.csv_reader.line_num, row[0], row[1], row[2], row[3], row[4]))
+            rows = self.read_csv()
             return rows[prod_id]
         except:
             return {
@@ -76,7 +68,7 @@ class CSV:
     # Function represents the API of adding the product
     def add_product(self, sku, brand, slug, title, quantity):
 
-        rows = dict() # CSV data is appended in the dictionary
+        rows = self.read_csv()
         with open(csv_dir + '/products.csv','a') as f_append:
             p = Product(rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, sku))], sku, brand, slug, title, quantity)
             rows[rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, p.id))]] = self.to_dict(p)
@@ -99,7 +91,7 @@ class CSV:
     def delete_product(self, product_id):
 
         try:
-            rows = self.list_products(no_of_products=None, brand_name=None, skip=None, limit=None)['response']
+            rows = self.read_csv()
             with open(csv_dir + '/products.csv') as input_file, open(csv_dir + '/output.csv', 'w') as output:
                 self.csv_reader = csv.reader(input_file)
 
@@ -134,3 +126,13 @@ class CSV:
         prod_dict.pop('product_types', None)
         prod_dict.pop('attribute_map', None)
         return prod_dict
+
+    # Function for read the CSV file
+    def read_csv(self):
+        rows = dict() # CSV data is appended in the dictionary
+        with open(csv_dir + '/products.csv') as input_file:
+            self.csv_reader = csv.reader(input_file)
+            for row in self.csv_reader:
+                rows[int(uuid.uuid3(uuid.NAMESPACE_DNS, row[0]))] = self.to_dict(Product(int(uuid.uuid3(uuid.NAMESPACE_DNS, row[0])), row[0], row[1], row[2], row[3], row[4]))
+        
+        return rows
