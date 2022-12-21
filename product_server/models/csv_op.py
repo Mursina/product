@@ -7,7 +7,6 @@ import uuid
 load_dotenv()
 
 # Environment variables
-root_dir = os.environ['ROOT_DIR']
 csv_dir = os.environ['CSV_DIR']
 
 class CSV:
